@@ -74,5 +74,20 @@ class FilteredRegNumberListView(SingleTableMixin, FilterView):
  #       return {
   #      'exclude': ('cpv', )
    #     }
-       
+
+from tablib import Dataset
+from .admin import RegNumberResource
+def simple_upload(request):
+    if request.method == 'POST':
+        person_resource = RegNumberResource()
+        dataset = Dataset()
+        new_regs = request.FILES['myfile']
+
+        imported_data = dataset.load(new_regs.read())
+        result = person_resource.import_data(dataset, dry_run=True)  # Test the data import
+
+        if not result.has_errors():
+            person_resource.import_data(dataset, dry_run=False)  # Actually import now
+
+    return render(request, 'notices/simple_upload.html')     
 	   

@@ -28,5 +28,9 @@ urlpatterns = [
         
         #Stats
         
-        path('stats',views.StatRegNumberView.as_view(), name='stats')
+        path('stats',views.StatRegNumberView.as_view(), name='stats'),
+        
+        # Import
+
+        path('simple_upload', views.index, name='simple_upload')
     ]

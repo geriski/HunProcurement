@@ -2,7 +2,7 @@ from django.db import models
     
 class Cpv(models.Model):
     """This is the CPV code of the notice"""
-    text = models.CharField('CPV-kód',max_length=10)
+    text = models.CharField('CPV-kód',max_length=10, null= True)
         
     def __str__(self):
         """Return a string representation of the model."""
@@ -10,7 +10,7 @@ class Cpv(models.Model):
 
 class Nuts(models.Model):
     """This is the NUTS code of the notice"""
-    text = models.CharField('NUTS-kód',max_length=6)
+    text = models.CharField('NUTS-kód',max_length=6, null= True)
     
     
     def __str__(self):

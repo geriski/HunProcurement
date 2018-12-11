@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'django_tables2',
     'django_filters',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +122,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+#The default value is False. It determines if the library will use database transactions on data import, just to be on the safe side.
+#IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
