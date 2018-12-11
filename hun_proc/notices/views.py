@@ -76,10 +76,10 @@ class FilteredRegNumberListView(SingleTableMixin, FilterView):
    #     }
 
 from tablib import Dataset
-from .admin import RegNumberResource
+from .admin import RegNumberResource, NutsResource
 def simple_upload(request):
     if request.method == 'POST':
-        person_resource = RegNumberResource()
+        person_resource = NutsResource()
         dataset = Dataset()
         new_regs = request.FILES['myfile']
 
@@ -89,5 +89,19 @@ def simple_upload(request):
         if not result.has_errors():
             person_resource.import_data(dataset, dry_run=False)  # Actually import now
 
-    return render(request, 'notices/simple_upload.html')     
+    return render(request, 'notices/simple_upload.html')
+
+def simple_upload2(request):
+    if request.method == 'POST':
+        person_resource = NutsResource()
+        dataset = Dataset()
+        new_regs = request.FILES['myfile']
+
+        imported_data = dataset.load(new_regs.read())
+        result = person_resource.import_data(dataset, dry_run=True)  # Test the data import
+
+        if not result.has_errors():
+            person_resource.import_data(dataset, dry_run=False)  # Actually import now
+
+    return render(request, 'notices/simple_upload2.html')      
 	   
