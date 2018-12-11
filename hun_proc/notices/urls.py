@@ -30,7 +30,8 @@ urlpatterns = [
         
         path('stats',views.StatRegNumberView.as_view(), name='stats'),
         
-        # Import
+        # Import RegNumber
 
-        path('simple_upload', views.index, name='simple_upload')
+        path('simple_upload', views.index, name='simple_upload'),
+        
     ]
