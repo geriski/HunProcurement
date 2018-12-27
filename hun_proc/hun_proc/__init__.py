@@ -1,6 +1,6 @@
 import os
 import sys
-app = Flask(hun_proc) # Needs defining at file global scope for thread-local sharing
+
 
 
 if __name__ == '__main__':
