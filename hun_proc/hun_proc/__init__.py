@@ -4,10 +4,7 @@ import sys
 from django.core.wsgi import get_wsgi_application
 from whitenoise.django import DjangoWhiteNoise
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bootcamp.settings")
 
-application = get_wsgi_application()
-application = DjangoWhiteNoise(application)
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hun_proc.settings')
@@ -20,3 +17,6 @@ if __name__ == '__main__':
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
+    
+application = get_wsgi_application()
+application = DjangoWhiteNoise(application)
