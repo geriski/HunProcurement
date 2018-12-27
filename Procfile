@@ -1,2 +1,2 @@
-web: gunicorn hunprocurement.wsgi
-web: gunicorn hunprocurement:app
+web: gunicorn manage.wsgi
+web: gunicorn manage:app
