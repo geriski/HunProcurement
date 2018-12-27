@@ -1,10 +1,6 @@
 import os
 import sys
 
-from django.core.wsgi import get_wsgi_application
-from whitenoise.django import DjangoWhiteNoise
-
-
 
 if __name__ == '__main__':
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hun_proc.settings')
@@ -18,5 +14,3 @@ if __name__ == '__main__':
         ) from exc
     execute_from_command_line(sys.argv)
     
-application = get_wsgi_application()
-application = DjangoWhiteNoise(application)
