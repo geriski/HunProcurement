@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from notices.models import RegNumber,Cpv,Nuts
 from django_tables2 import RequestConfig
-from .tables import RegNumberTable,  RegNumberStatNuts 
+from .tables import RegNumberTable,  RegNumberStatNuts, RegNumberStatAmount 
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from django_tables2 import MultiTableMixin
 from django.views.generic.base import TemplateView
-from django.db.models import Count
+from django.db.models import Count, Avg, Max, Min
 
 
 
@@ -33,21 +33,20 @@ class StatRegNumberView(SingleTableMixin, FilterView):
     
     def get_queryset(self):
         
-        qs= RegNumber.objects.values('nuts__text').annotate(darab=Count('nuts__text'))
-        qs2=RegNumber.objects.all()   
+        qs= RegNumber.objects.values('nuts__text').annotate(darab=Count('nuts__text'), min_amount=Min('amount'), max_amount=Max('amount'), avg_amount=Avg('amount'))
+      #  qs2=RegNumber.objects.all()   
         return qs
 
     def get_context_data(self, **kwargs):
         context = super(StatRegNumberView, self).get_context_data(**kwargs)
         
         if  self.filterset.form.is_valid():
-            context['table_cmu'] =  RegNumberTable(RegNumber.objects.all())
-            context['table_cmu'] = self.filterset.filter_queryset(RegNumber.objects.all())
-        
-        #context['table_cmu2'] =  self.filterset.RegNumberStatNuts(RegNumber.objects.values('nuts__text').annotate(darab=Count('nuts__text')))
+            context['table_cmu'] =  RegNumberTable(self.filterset.filter_queryset(RegNumber.objects.all()))
+            #context['table_cmu2'] =  RegNumberStatAmount(self.filterset.filter_queryset(RegNumber.objects.values().annotate(minimum=Min('amount'))))
                    
         else:
            context['table_cmu']= RegNumberTable(RegNumber.objects.filter(nuts = '000'))
+          # context['table_cmu2']= RegNumberTable(RegNumber.objects.filter(nuts = '000'))
         return context
 
 class FilteredRegNumberListView(SingleTableMixin, FilterView):
