@@ -26,14 +26,14 @@ def notices(request):
 
 class StatRegNumberView(SingleTableMixin, FilterView):
     template_name = 'notices/stats.html'
-    #table_pagination = {"per_page": 2}
+    table_pagination = {"per_page": 10}
     #model = RegNumber
     filterset_class = RegFilter
-    table_class = RegNumberStatNuts
+    table_class = RegNumberTable
     
     def get_queryset(self):
         
-        qs= RegNumber.objects.values('nuts__text').annotate(darab=Count('nuts__text'), min_amount=Min('amount'), max_amount=Max('amount'), avg_amount=Avg('amount'))
+        qs= RegNumber.objects.all()
       #  qs2=RegNumber.objects.all()   
         return qs
 
@@ -41,7 +41,8 @@ class StatRegNumberView(SingleTableMixin, FilterView):
         context = super(StatRegNumberView, self).get_context_data(**kwargs)
         
         if  self.filterset.form.is_valid():
-            context['table_cmu'] =  RegNumberTable(self.filterset.filter_queryset(RegNumber.objects.all()))
+           # context['table_cmu'] =  RegNumberTable(self.filterset.filter_queryset(RegNumber.objects.all()))
+            context['table_cmu'] = RegNumberStatNuts(self.filterset.filter_queryset(RegNumber.objects.values('nuts__text').annotate(darab=Count('nuts__text'), min_amount=Min('amount'), max_amount=Max('amount'), avg_amount=Avg('amount'))))
             #context['table_cmu2'] =  RegNumberStatAmount(self.filterset.filter_queryset(RegNumber.objects.values().annotate(minimum=Min('amount'))))
                    
         else:
