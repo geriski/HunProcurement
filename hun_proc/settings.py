@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     
     #My apps
     'notices',
+    'users',
     
     # Third party apps
     'bootstrap3',
@@ -157,3 +158,6 @@ STATIC_URL = '/static/'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+# My settings
+LOGIN_URL = '/users/login/'

@@ -7,6 +7,8 @@ from django_tables2.views import SingleTableMixin
 from django_tables2 import MultiTableMixin
 from django.views.generic.base import TemplateView
 from django.db.models import Count, Avg, Max, Min
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
@@ -24,7 +26,12 @@ def notices(request):
     RequestConfig(request).configure(table)
     return render(request, 'notices/notices.html', {'table': table})
 
-class StatRegNumberView(SingleTableMixin, FilterView):
+
+class StatRegNumberView(LoginRequiredMixin, SingleTableMixin, FilterView):
+    
+    login_url = 'users/login/'
+    redirect_field_name = 'redirect_to'
+    
     template_name = 'notices/stats.html'
     table_pagination = {"per_page": 10}
     #model = RegNumber
@@ -50,7 +57,10 @@ class StatRegNumberView(SingleTableMixin, FilterView):
           # context['table_cmu2']= RegNumberTable(RegNumber.objects.filter(nuts = '000'))
         return context
 
-class FilteredRegNumberListView(SingleTableMixin, FilterView):
+class FilteredRegNumberListView(LoginRequiredMixin, SingleTableMixin, FilterView):
+    
+    login_url = 'users/login/'
+    redirect_field_name = 'redirect_to'
     
     table_class = RegNumberTable
     model = RegNumber
